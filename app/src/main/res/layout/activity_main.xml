@@ -10,7 +10,15 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Button2"
         tools:layout_editor_absoluteX="161dp"
         tools:layout_editor_absoluteY="180dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteY="154dp"
+        tools:layout_editor_absoluteX="182dp" />
 </android.support.constraint.ConstraintLayout>
