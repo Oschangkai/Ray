@@ -3,6 +3,8 @@ package tw.kaiyeee.android.myapplication;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -36,6 +38,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.FacebookSdk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,9 +78,13 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login_page);
+
         initializeControls();
+
         loginWithFB();
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -130,6 +137,11 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
 
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -370,7 +382,9 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
             showProgress(false);
 
             if (success) {
-                finish();
+                Intent intent = new Intent();
+                intent.setClass(LoginPage.this,MainActivity.class);
+                startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -383,5 +397,24 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
             showProgress(false);
         }
     }
-}
+    public void onBackPressed() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(LoginPage.this);
+        builder.setMessage("你確定要離開嗎?");
+        builder.setCancelable(true);
+        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });// OnBackPressed
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+}/*loginPage.java*/
 
