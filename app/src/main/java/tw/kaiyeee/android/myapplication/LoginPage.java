@@ -3,6 +3,7 @@ package tw.kaiyeee.android.myapplication;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -29,6 +30,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +47,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    LoginButton login_button;
+    CallbackManager callbackManager;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -66,6 +76,8 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
+        initializeControls();
+        loginWithFB();
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -94,6 +106,31 @@ public class LoginPage extends AppCompatActivity implements LoaderCallbacks<Curs
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    private void initializeControls() {
+        callbackManager = CallbackManager.Factory.create();
+        login_button = (LoginButton) findViewById(R.id.login_button);
+    }
+    private void loginWithFB(){
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Intent intent = new Intent();
+                intent.setClass(LoginPage.this,MainActivity.class);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+    }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;

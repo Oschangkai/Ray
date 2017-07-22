@@ -3,14 +3,14 @@
     <string name="title_activity_login_page">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="prompt_email">信箱</string>
+    <string name="prompt_password">密碼</string>
+    <string name="action_sign_in">登入</string>
+    <string name="action_sign_in_short">登入</string>
+    <string name="error_invalid_email">無效的信箱</string>
+    <string name="error_invalid_password">密碼太短</string>
+    <string name="error_incorrect_password">密碼錯誤</string>
+    <string name="error_field_required">欄位不可空白</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
